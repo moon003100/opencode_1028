@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0b0d12">
+<title>放置天地 · 單機版</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ===== 標題畫面 ===== -->
+  <section id="screen-title" class="screen active">
+    <div class="title-bg"></div>
+    <div class="title-wrap">
+      <div class="title-logo">放置天地</div>
+      <div class="title-sub">單 機 版 · 離 線 掛 機</div>
+      <div class="title-panel">
+        <div class="title-emoji">🐣</div>
+        <button id="btn-continue" class="btn btn-gold hidden">繼 續 遊 戲</button>
+        <button id="btn-new" class="btn btn-ghost">新 的 旅 程</button>
+        <p class="title-hint">進度自動儲存於此瀏覽器<br>無需註冊 · 無需連線</p>
+        <div class="title-version">v1.0 · single</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 建立角色 ===== -->
+  <section id="screen-create" class="screen">
+    <header class="sub-header">
+      <button class="icon-btn" data-back="title">←</button>
+      <h1>建 立 角 色</h1>
+      <span class="spacer"></span>
+    </header>
+    <div class="create-body">
+      <div class="field">
+        <label>角 色 名 稱</label>
+        <input id="in-name" maxlength="10" placeholder="輸入名稱（最多 10 字）" autocomplete="off">
+      </div>
+
+      <div class="field">
+        <label>選 擇 職 業</label>
+        <div id="class-list" class="class-list"></div>
+      </div>
+
+      <div class="field">
+        <label>性 別</label>
+        <div class="seg" id="gender-seg">
+          <button data-g="male" class="active">男</button>
+          <button data-g="female">女</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>分 配 屬 性 <span class="badge" id="points-left">剩餘 6</span></label>
+        <div id="stat-alloc" class="stat-alloc"></div>
+      </div>
+
+      <div class="create-preview" id="create-preview"></div>
+    </div>
+    <footer class="create-footer">
+      <button id="btn-create" class="btn btn-gold">建 立 角 色</button>
+    </footer>
+  </section>
+
+  <!-- ===== 遊戲主畫面 ===== -->
+  <section id="screen-game" class="screen">
+    <header class="hud">
+      <div class="hud-row">
+        <div class="hud-id">
+          <span id="hud-class" class="hud-class">🛡️</span>
+          <span id="hud-name" class="hud-name">—</span>
+          <span id="hud-lv" class="hud-lv">Lv.1</span>
+        </div>
+        <div class="hud-cur">
+          <span class="cur gold">💰<b id="hud-gold">0</b></span>
+          <span class="cur dia">💎<b id="hud-dia">0</b></span>
+        </div>
+      </div>
+      <div class="bar hp"><i id="bar-hp"></i><span id="txt-hp">0/0</span></div>
+      <div class="bar mp"><i id="bar-mp"></i><span id="txt-mp">0/0</span></div>
+      <div class="bar exp"><i id="bar-exp"></i><span id="txt-exp">0%</span></div>
+      <div class="hud-row hud-sub">
+        <span>防禦 AC <b id="hud-ac">0</b></span>
+        <span>魔防 MR <b id="hud-mr">0</b></span>
+        <span>攻擊 ATK <b id="hud-atk">0</b></span>
+        <span>爆擊 <b id="hud-crit">0%</b></span>
+      </div>
+    </header>
+
+    <main class="stage" id="stage">
+      <div class="stage-head">
+        <button class="icon-btn" id="btn-map">🗺️</button>
+        <div class="stage-map" id="map-name">說話之島</div>
+        <button class="icon-btn" id="btn-boss">👑</button>
+      </div>
+
+      <div class="battle">
+        <div class="monster" id="monster">
+          <div class="m-emoji" id="m-emoji">👺</div>
+          <div class="m-name" id="m-name">妖魔</div>
+          <div class="bar mhp"><i id="m-hp"></i><span id="m-txt">0/0</span></div>
+        </div>
+        <div class="ground"></div>
+        <div class="hero" id="hero">
+          <div class="h-emoji" id="h-emoji">🛡️</div>
+          <div class="h-name" id="h-name">—</div>
+        </div>
+        <div class="fx-layer" id="fx"></div>
+      </div>
+
+      <div class="logbox" id="log"></div>
+
+      <div class="battle-actions">
+        <button id="btn-attack" class="btn btn-fight">⚔ 攻 擊</button>
+        <button id="btn-stop" class="btn btn-stop">■ 停 止</button>
+      </div>
+    </main>
+
+    <nav class="tabs">
+      <button data-tab="hunt"><span>🗺️</span>狩獵場</button>
+      <button data-tab="bag"><span>🎒</span>背包</button>
+      <button data-tab="stat"><span>📊</span>能力</button>
+      <button data-tab="shop"><span>🛒</span>商店</button>
+      <button data-tab="hall"><span>🏰</span>大廳</button>
+      <button data-tab="setting"><span>⚙️</span>設定</button>
+    </nav>
+
+    <div id="panel" class="panel hidden"></div>
+  </section>
+</div>
+
+<div id="modal-root"></div>
+<div id="toast" class="toast"></div>
+
+<script src="js/data.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
